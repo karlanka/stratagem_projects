@@ -1,4 +1,4 @@
-import mysql.connector
+import pymysql
 import pandas as pd
 import os
 from sqlalchemy import create_engine
@@ -7,9 +7,9 @@ from sqlalchemy import create_engine
 pw = 'anton'
 host_name = '127.0.0.1'
 
-cnx = mysql.connector.connect(user='root', password=pw, host=host_name, database='stratagem')
-cursor = cnx.cursor(buffered=True)
-engine = create_engine('mysql+mysqlconnector://root:anton@localhost/stratagem')
+cnx = pymysql.connect(user='root', password=pw, host=host_name, database='stratagem')
+cursor = cnx.cursor()
+engine = create_engine('mysql+pymysql://root:anton@localhost/stratagem?charset=utf8', encoding='utf-8')
 
 
 # add the csv-files to their respective tables
@@ -66,6 +66,9 @@ def main():
     # send all paths to read_files method
     for competition_path in competition_paths:
         read_files(competition_path)
+
+#df = pd.read_csv('/Users/antonkarling/Desktop/Workbook1.csv', delimiter=';', encoding="ISO-8859-1")
+#df.to_sql('sql_focus', engine, if_exists='append', chunksize=1000)
 
 if __name__ == '__main__':
     main()
